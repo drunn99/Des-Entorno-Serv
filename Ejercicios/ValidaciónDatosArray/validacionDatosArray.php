@@ -24,7 +24,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             if (empty($_POST["dni"]) || strlen($_POST["dni"]) < 5) {
                 array_push($arrayErrores,"Debe introducir un dni válido de longitud superior a 5.");
             }
-            echo filter_var(($_POST["mail"]), FILTER_VALIDATE_EMAIL);
             if (empty($_POST["mail"]) || !filter_var(($_POST["mail"]), FILTER_VALIDATE_EMAIL)) {
                 array_push($arrayErrores,"Debe introducir un mail de alumno válido.");
             }
@@ -32,7 +31,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 array_push($arrayErrores,"Debe introducir un módulo del alumno.");
             }
         }
-        if (!isset($_POST["enviar"]) || empty($_POST["mod"]) || empty($_POST["alumnName"]) || empty($_POST["dni"]) || strlen($_POST["dni"]) < 5 || empty($_POST["mail"])) {
+        if (!isset($_POST["enviar"]) || !empty($arrayErrores)) {
             ?>
             <form action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
                 <fieldset>
@@ -58,7 +57,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 <button type="submit" name="enviar">Enviar</button>
                 <button type="submit" name="reset">Limpiar</button>
                 <?php
-                            var_dump($arrayErrores);
+                            
                 if (isset($arrayErrores) && !empty($arrayErrores)) {
                     $errores = '<br><p style="color: red">';
                     foreach ($arrayErrores as $value) {
