@@ -34,6 +34,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                         <input type="radio" name="sex" placeholder="Mujer" value="m"><a>Mujer</a>
                     </span>
                     <label for="direccion">Direccion</label>
+                    <input type="text" name="dire">
                     <p>
                         <button type="submit" name="submit">Enviar</button>
                         <button type="reset" name="reset">Limpiar</button>
