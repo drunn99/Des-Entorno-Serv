@@ -72,7 +72,7 @@ function comprobarErroresFile($codError, $type) {
 
 //Comprueba los tipos del file
 function esPdf($type) {
-    return !empty($type) && str_contains($type, "/pdf" || str_contains($type, "/jpeg"));
+    return !empty($type) && str_contains($type, "pdf") || str_contains($type, "jpg");
 }
 
 //Calcula la edad del usuario
@@ -81,7 +81,7 @@ function calculaEdad($fecNac) {
     $hoy = date("Y-m-d");
     /* 
      * calcula la resta gracias al método date_diff, que recibe como argumentos
-     * dos fechas(creadas a través de dos strings (fechaNac que se envía directamente desde
+     * dos fechas(creadas a través de dos strings ($fechaNac que se envía directamente desde
      * el formulario y $hoy)
      */
     $resta = date_diff(date_create($fecNac), date_create($hoy));
@@ -89,6 +89,14 @@ function calculaEdad($fecNac) {
     return $resta->format("%y");
 }
 
+    function imprimeDatos ($datos){
+    
+    }
+    
+    function arrayAso($array,$clave,$valor){
+        $array[$clave] = $valor;
+        return $array;
+    }
 /* 
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template

@@ -16,7 +16,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         include "./procesa.php";
         if (!isset($_POST["submit"]) || !empty($arrayErrores)) {
             ?>
-            <form action ="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
+            <form action ="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST" enctype="multipart/form-data">
                 <fieldset>
                     <legend><h3>Datos Personales</h3></legend>
                     <div id="form1">
@@ -89,19 +89,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 </div>
             </form>
             <?php
+        } else if (isset($_POST["submit"])) {
+            
         } else {
             //VALIDACIÓN DE CAMPOS
             $arrayErrores = [];
+            $arrayValores = [];
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 //Nombre
                 if (!empty($_POST["nombre"])) {
                     $nombre = limpiarNombreApellidos($_POST["nombre"]);
+                    $arrayValores = arrayAso($arrayValores, "nombre", $nombre);
                 } else {
                     array_push($arrayErrores, "Debes introducir un nombre");
                 }
                 //Apellidos
                 if (!empty($_POST["apellidos"])) {
                     $apellidos = limpiarNombreApellidos($_POST["apellidos"]);
+                    $arrayValores = arrayAso($arrayValores, "apellidos", $apellidos);
                 } else {
                     array_push($arrayErrores, "Debes introducir tus apellidos");
                 }
@@ -111,75 +116,80 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                         array_push($arrayErrores, "El dni es inválido");
                     } else {
                         $dni = limpiaDni($_POST["dni"]);
+                        $arrayValores = arrayAso($arrayValores, "dni", $dni);
                     }
                 } else {
                     array_push($arrayErrores, "Debes introducir un dni");
                 }
-
-                /* DNI (archivo) PREGUNTAR MAÑANA
-                  if (isset($_FILES["file"])) {
-                  array_push($arrayErrores, comprobarErroresFile($_FILES["file"]["error"], $_FILES["file"]["type"]));
-                  var_dump($_FILES["file"]);
-                  } else {
-                  array_push($arrayErrores, "Introduce un fichero de tipo pdf/jpg");
-                  var_dump($_FILES["file"]);
-                  }
-                 */
-                
+                //DNI (archivo)
+                if (!empty($_FILES["file"])) {
+                    $aux = comprobarErroresFile($_FILES["file"]["error"], $_FILES["file"]["type"]);
+                    if ($aux != null) {
+                        array_push($arrayErrores, $aux);
+                        echo " archivo subido ";
+                    }
+                    var_dump($_FILES["file"]);
+                }
                 //Fecha nacimiento
                 if (!empty($_POST["fecNac"])) {
                     $fecNac = limpiaFecha($_POST["fecNac"]);
                     $edad = calculaEdad($_POST["fecNac"]);
+                    $arrayValores = arrayAso($arrayValores, "fecNac", $fecNac);
+                    $arrayValores = arrayAso($arrayValores, "edad", $edad);
                 } else {
                     array_push($arrayErrores, "Debes introducir tu fecha de nacimiento");
                 }
                 //Mail
                 if (!empty($_POST["mail"]) && filter_var($_POST["mail"], FILTER_VALIDATE_EMAIL)) {
                     $mail = $_POST["mail"];
+                    $arrayValores = arrayAso($arrayValores, "mail", $mail);
                 } else {
                     array_push($arrayErrores, "Debes introducir un mail válido");
                 }
                 //Sexo
-                if(!empty($_POST["sex"])){
+                if (!empty($_POST["sex"])) {
                     $sex = $_POST["sex"];
+                    $arrayValores = arrayAso($arrayValores, "sex", $sex);
                 } else {
-                    array_push($arrayErrores,"Debes seleccionar un sexo");
+                    array_push($arrayErrores, "Debes seleccionar un sexo");
                 }
                 //Direccion
-                if(!empty($_POST["dire"])){
+                if (!empty($_POST["dire"])) {
                     $dire = $_POST["dire"];
+                    $arrayValores = arrayAso($arrayValores, "dire", $dire);
                 } else {
                     array_push($arrayErrores, "Debes indicar tu dirección");
                 }
                 //CP
-                if(!empty($_POST["cp"])){
+                if (!empty($_POST["cp"])) {
                     $cp = $_POST["cp"];
+                    $arrayValores = arrayAso($arrayValores, "dni", $dni);
                 } else {
                     array_push($arrayErrores, "Debes indicar tu Código Postal");
                 }
                 //Localidad
-                if(!empty($_POST["loca"])){
+                if (!empty($_POST["loca"])) {
                     $loca = $_POST["loca"];
                 } else {
                     array_push($arrayErrores, "Debes indicar tu localidad");
                 }
                 //Provincia
-                if(!empty($_POST["provincia"])){
+                if (!empty($_POST["provincia"])) {
                     $provincia = $_POST["provincia"];
                 } else {
                     array_push($arrayErrores, "Debes indicar tu provincia");
                 }
                 //Idiomas
-                if(!empty($_POST["lang"])){
+                if (!empty($_POST["lang"])) {
                     $lang = $_POST["lang"];
                 } else {
-                    array_push($arrayErrores,"Debes indicar al menos un idioma");
+                    array_push($arrayErrores, "Debes indicar al menos un idioma");
                 }
                 //Estudios
-                if(!empty($_POST["estudios"])){
+                if (!empty($_POST["estudios"])) {
                     $estudios = $_POST["estudios"];
                 } else {
-                    array_push($arrayErrores,"Debes indicar tu nivel de estudios");
+                    array_push($arrayErrores, "Debes indicar tu nivel de estudios");
                 }
                 var_dump($arrayErrores);
             } else {
