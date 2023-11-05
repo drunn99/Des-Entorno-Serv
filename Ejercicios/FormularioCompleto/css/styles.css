@@ -1,5 +1,5 @@
 body{
-    background-color: honeydew;
+    background-color: blanchedalmond;
     font-size:large;
     font-family: monospace;
 }
@@ -40,16 +40,24 @@ form > fieldset:nth-of-type(2){
     border: none;
 }
 
+legend {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 fieldset:first-child > legend {
     color:white;
     background-color: rgb(0,150,150);
     border-radius: 10px;
+    width: 40%;
 }
 
 fieldset:nth-of-type(2) > legend {
     color:white;
     background-color: rgb(0,150,150);
     border-radius: 10px;
+    width: 40%;
 }
 
 input:not(#inputDni){
@@ -111,4 +119,69 @@ form > div:last-child{
 .error{
     background-color: #ff9999;
     font-weight: 600;
+}
+
+.ventana {
+    display:none;
+}
+
+
+.ventanaErrores {
+    display:flex;
+    flex-direction:column;
+    border-radius: 20px;
+    position: absolute;
+    top: 1%;
+    left: 2%;
+    padding: 1%;
+    background-color: #ffcccc;
+}
+
+#png {
+    width: 20%;
+    height: 20%;
+    margin:0;
+    filter: invert();
+}
+
+h3{
+    margin: 0 2%;
+}
+
+h2{
+    margin: 0;
+}
+
+#tarjetaUsuario{
+    background-color: #ccffff;
+    border-radius: 20px;
+    width: 30%;
+    padding:1%;
+    font-weight: 600;
+    margin-bottom: 3%;
+}
+
+#tarjetaFormacion{
+    background-color: #ccffff;
+    border-radius: 20px;
+    width: 30%;
+    padding:1%;
+    font-weight: 600;
+}
+
+h2 ~ h3{
+    margin-top: 2%;
+}
+
+ul{
+    margin-left: 5%;
+}
+
+ul ~ p{
+    margin-left: 2%;
+}
+
+fieldset ~ div{
+    width: 20%;
+    text-align: center;
 }

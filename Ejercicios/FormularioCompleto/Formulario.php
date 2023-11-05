@@ -13,7 +13,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         <?php
         setlocale(LC_ALL, "es_ES", "Spansih_spain", "Spanish");
         $arrayProvincias = ["Ávila", "Burgos", "León", "Palencia", "Salamanca", "Segovia", "Soria", "Valladolid", "Zamora"];
-        include "./procesa.php";
+        include "./datos.php";
+
+        if (isset($_POST["reset"])) {
+            unset($_POST);
+            header("Location" . $_SERVER["PHP_SELF"]);
+        }
+
         if (isset($_POST["submit"]) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
             //VALIDACIÓN DE CAMPOS
             $arrayErrores = [];
@@ -99,12 +105,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 $arrayErrores = arrayAso($arrayErrores, "loca", "Introduce tu localidad");
             }
             //Provincia
-            if (!empty($_POST["provincia"])) {
+            if ($_POST["provincia"] != "Provincia") {
                 $provincia = $_POST["provincia"];
                 $arrayValores = arrayAso($arrayValores, "prov", $provincia);
             } else {
                 $arrayErrores = arrayAso($arrayErrores, "prov", "Introduce tu provincia");
-                echo "ey";
             }
             //Idiomas
             if (!empty($_POST["lang"])) {
@@ -114,29 +119,34 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 $arrayErrores = arrayAso($arrayErrores, "lang", "Introduce al menos un idioma");
             }
             //Estudios
-            if (!empty($_POST["estudios"])) {
+            if ($_POST["estudios"] != "Estudios") {
                 $estudios = $_POST["estudios"];
                 $arrayValores = arrayAso($arrayValores, "estudios", $estudios);
             } else {
                 $arrayErrores = arrayAso($arrayErrores, "est", "Introduce tu nivel de estudios");
-                echo "ey";
             }
-            var_dump($arrayErrores);
         }
+
         if (!isset($_POST["submit"]) || count($arrayErrores) > 0) {
             ?>
             <form action ="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST" enctype="multipart/form-data">
                 <fieldset>
-                    <legend><h3>Datos Personales</h3></legend>
+                    <legend>
+                        <img id="png" src="icons/gerente.png">
+                        <h3>Datos Personales: </h3>
+                    </legend>
                     <div id="form1">
+
                         <!-- Input nombre -->
                         <input type="text" name="nombre" placeholder="Nombre" class=<?php
                         echo isset($arrayErrores) ? senalaError($arrayErrores, "nom") : "none";
                         ?> value="<?php echo isset($nombre) ? $nombre : ""; ?>">
+
                         <!-- Input apellidos -->
                         <input type="text" name="apellidos" placeholder="Apellidos" class=<?php
                         echo isset($arrayErrores) ? senalaError($arrayErrores, "ape") : "";
                         ?> value="<?php echo isset($apellidos) ? $apellidos : ""; ?>">
+
                         <!-- Input DNI -->
                         <div id="imageUpload">
                             <div>
@@ -153,37 +163,46 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                             </div>
                             <input id="file-input" type="file" name="file">
                         </div>
+
                         <!--Input Fecha de nacimiento -->
                         <input type="date" name="fecNac" class=<?php
                         echo isset($arrayErrores) ? senalaError($arrayErrores, "fecNac") : "";
-                        ?> value="<?php echo isset($fecNac) ? $fecNac : ""; ?>">
+                        ?> value="<?php echo isset($fecNac) ? $_POST["fecNac"] : ""; ?>">
+
                         <!--Input sexo  -->
                         <label>Sexo</label>
                         <span>
-                            <input type="radio" name="sex" placeholder="Hombre" value="h"><a>Hombre</a>
-                            <input type="radio" name="sex" placeholder="Mujer" value="m"><a>Mujer</a>
+                            <input type="radio" name="sex" placeholder="Hombre" value="Hombre"
+                                   <?php echo isset($sex) && $sex == "Hombre" ? 'checked="checked"' : ""; ?> ><a>Hombre</a>
+                            <input type="radio" name="sex" placeholder="Mujer" value="Mujer"
+                                   <?php echo isset($sex) && $sex == "Mujer" ? 'checked="checked"' : ""; ?> ><a>Mujer</a>
                         </span>
+
                         <!-- Input Dirección -->
                         <input type="text" name="dire" placeholder="Dirección" class=<?php
                         echo isset($arrayErrores) ? senalaError($arrayErrores, "dire") : "";
                         ?> value="<?php echo isset($dire) ? $dire : ""; ?>">
+
                         <!-- Input Codigo Postal -->
                         <input type="text" name="cp" placeholder="Codigo Postal" class=<?php
                         echo isset($arrayErrores) ? senalaError($arrayErrores, "cp") : "";
                         ?> value="<?php echo isset($cp) ? $cp : ""; ?>">
+
                         <!-- Input Localidad -->
                         <input text="text" name="loca" placeholder="Localidad" class=<?php
                         echo isset($arrayErrores) ? senalaError($arrayErrores, "loca") : "";
                         ?> value="<?php echo isset($loca) ? $loca : ""; ?>">
-                        <!-- Input provincia ---REVISAR NO MANDA ERROR--- -->
+
+                        <!-- Input provincia ---REVISAR--- -->
                         <select name="provincia" placeholder="Provincia">
-                            <option hidden selected>Provincia</option>
+                            <option hidden selected><?php echo isset($provincia) ? "$provincia" : "Provincia"; ?></option>
                             <?php
                             foreach ($arrayProvincias as $value) {
                                 echo "<option value='$value'>$value</option>";
                             }
                             ?>
                         </select>
+                        
                         <!-- Input mail -->
                         <input type="mail" name="mail" placeholder="Mail" class=<?php
                         echo isset($arrayErrores) ? senalaError($arrayErrores, "mail") : "";
@@ -191,52 +210,95 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend><h3>Formación</h3></legend>
+                    <legend>
+                        <img id="png" src="icons/sombrero-de-graduacion.png">
+                        <h3>Formación: </h3>
+                    </legend>
+
                     <!-- Input idiomas -->
                     <div id="form2">
                         <label><h4>Idiomas:</h4></label>
                         <div>
-                            <input class="inputCheckBox" type="checkbox" value="es" name="lang[]">
+                            <input class="inputCheckBox" type="checkbox" value="Español" name="lang[]"
+                                   <?php echo isset($_POST["lang"]) && in_array("Español", $_POST["lang"]) ? 'checked="checked"' : ""; ?>>
                             <label>Castellano</label>
                         </div>
                         <div>
-                            <input class="inputCheckBox" type="checkbox" value="en" name="lang[]">
+                            <input class="inputCheckBox" type="checkbox" value="Inglés" name="lang[]"
+                                   <?php echo isset($_POST["lang"]) && in_array("Inglés", $_POST["lang"]) ? 'checked="checked"' : ""; ?>>
                             <label>Inglés</label>
                         </div>
                         <div>
-                            <input class="inputCheckBox" type="checkbox" value="fr" name="lang[]">
+                            <input class="inputCheckBox" type="checkbox" value="Francés" name="lang[]"
+                                   <?php echo isset($_POST["lang"]) && in_array("Francés", $_POST["lang"]) ? 'checked="checked"' : ""; ?>>
                             <label>Francés</label>
                         </div>
                         <div>
-                            <input class="inputCheckBox" type="checkbox" value="de" name="lang[]">
+                            <input class="inputCheckBox" type="checkbox" value="Alemán" name="lang[]"
+                                   <?php echo isset($_POST["lang"]) && in_array("Alemán", $_POST["lang"]) ? 'checked="checked"' : ""; ?>>
                             <label>Alemán</label>
                         </div>
-                        <!-- Input estudios ---REVISAR NO MANDA ERROR--- -->
+                        <div>
+                            <input class="inputCheckBox" type="text" name="lang[]" placeholder="Otro">
+                        </div>
+
+                        <!-- Input estudios ---REVISAR--- -->
                         <select name="estudios">
-                            <option hidden selected>Estudios</option>
-                            <option value="eso">E.S.O</option>
-                            <option value="bach">Bachillerato</option>
-                            <option value="uni">Universitarios</option>
+                            <option hidden selected><?php echo isset($estudios) ? $estudios : "Estudios" ?></option>
+                            <option value="E.S.O">E.S.O</option>
+                            <option value="Bachillerato">Bachillerato</option>
+                            <option value="Grado Superior">Grado superior   </option>
+                            <option value="Universitarios">Universitarios</option>
                         </select>
                     </div>
                 </fieldset>
                 <div>
                     <button type="submit" name="submit">Enviar</button>
-                    <button type="reset" name="reset">Limpiar</button>
+                    <button type="submit" name="reset">Limpiar</button>
                 </div>
             </form>
-            <div id="errWindow">
+
+            <!-- Ventana oculta que muestra los errores -->
+            <div class="<?php echo!empty($arrayErrores) ? "ventanaErrores" : "ventana" ?>">
+                <h2>Revise estos campos:</h2>
                 <?php
-                foreach ($arrayErrores as $value) {
-                    echo "<div>$value</div>";
+                if (isset($arrayErrores)) {
+                    foreach ($arrayErrores as $value) {
+                        echo "<div>- $value</div>";
+                    }
                 }
                 ?>
             </div>
-            <?php
-        } else {
-            echo "teta";
-            var_dump($arrayValores);
-        }
+        <?php } else {
+            ?>
+            <div id="tarjetaUsuario">
+                <h1>Datos Personales: </h1>
+                <p>-Nombre y apellidos: <?php echo $arrayValores["nombre"] . " " . $arrayValores["apellidos"]; ?></p>
+                <p>-<?php echo $arrayValores["fecNac"]; ?></p>
+                <p>-DNI: <?php echo $arrayValores["dni"]; ?></p>
+                <p>-Sexo: <?php echo $arrayValores["sex"]; ?></p>
+                <p>-Dirección: <?php echo 
+                        $arrayValores["dire"] . " - " . 
+                        $arrayValores["cp"] . " " . 
+                        $arrayValores["loca"] . ", " . 
+                        $arrayValores["prov"]?></p>
+                <p>Email: <?php echo $arrayValores["mail"]; ?></p>
+                <p>Archivo dni: <?php echo $_FILES["file"]["name"]; ?></p>
+            </div>
+            <div id="tarjetaFormacion">
+                <h2>Formación:</h2>
+                <h3>Idiomas:</h3>
+                <ul>
+                    <?php
+                    foreach ($arrayValores["lang"] as $value) {
+                        echo "<li>$value</li>";
+                    }
+                    ?>
+                </ul>
+                <p>Estudios: <?php echo $arrayValores["estudios"] ?></p>
+            </div>
+
+        <?php }
         ?>
     </body>
 </html>
