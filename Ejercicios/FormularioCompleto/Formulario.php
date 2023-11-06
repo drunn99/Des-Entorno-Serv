@@ -14,7 +14,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         setlocale(LC_ALL, "es_ES", "Spansih_spain", "Spanish");
         $arrayProvincias = ["Ávila", "Burgos", "León", "Palencia", "Salamanca", "Segovia", "Soria", "Valladolid", "Zamora"];
         include "./datos.php";
-
         if (isset($_POST["reset"])) {
             unset($_POST);
             header("Location" . $_SERVER["PHP_SELF"]);
@@ -54,6 +53,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 $aux = comprobarErroresFile($_FILES["file"]["error"], $_FILES["file"]["type"]);
                 if ($aux != null) {
                     $arrayErrores = arrayAso($arrayErrores, "dnifile", $aux);
+                } else {
+                    move_uploaded_file($_FILES["file"]["tmp_name"], "ficheros/" . $_FILES["file"]["name"]);
                 }
             }
             //Fecha nacimiento
@@ -173,9 +174,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                         <label>Sexo</label>
                         <span>
                             <input type="radio" name="sex" placeholder="Hombre" value="Hombre"
-                                   <?php echo isset($sex) && $sex == "Hombre" ? 'checked="checked"' : ""; ?> ><a>Hombre</a>
+                                   <?php echo isset($sex) && $sex == "Hombre" ? 'checked="checked"' : ""; ?>><a>Hombre</a>
                             <input type="radio" name="sex" placeholder="Mujer" value="Mujer"
-                                   <?php echo isset($sex) && $sex == "Mujer" ? 'checked="checked"' : ""; ?> ><a>Mujer</a>
+                                   <?php echo isset($sex) && $sex == "Mujer" ? 'checked="checked"' : ""; ?>><a>Mujer</a>
                         </span>
 
                         <!-- Input Dirección -->
@@ -202,7 +203,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                             }
                             ?>
                         </select>
-                        
+
                         <!-- Input mail -->
                         <input type="mail" name="mail" placeholder="Mail" class=<?php
                         echo isset($arrayErrores) ? senalaError($arrayErrores, "mail") : "";
@@ -239,7 +240,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                             <label>Alemán</label>
                         </div>
                         <div>
-                            <input class="inputCheckBox" type="text" name="lang[]" placeholder="Otro">
+                            <input class="inputCheckBox" type="text" name="lang[4]" placeholder="Otro" value="<?php echo isset($lang[4]) ? $lang[4] : ""; ?>">
                         </div>
 
                         <!-- Input estudios ---REVISAR--- -->
@@ -271,19 +272,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             </div>
         <?php } else {
             ?>
+            <!-- Mostrar datos cuando no existen errores -->
             <div id="tarjetaUsuario">
                 <h1>Datos Personales: </h1>
                 <p>-Nombre y apellidos: <?php echo $arrayValores["nombre"] . " " . $arrayValores["apellidos"]; ?></p>
                 <p>-<?php echo $arrayValores["fecNac"]; ?></p>
+                <p>-Edad: <?php echo $arrayValores["edad"]; ?></p>
                 <p>-DNI: <?php echo $arrayValores["dni"]; ?></p>
                 <p>-Sexo: <?php echo $arrayValores["sex"]; ?></p>
-                <p>-Dirección: <?php echo 
-                        $arrayValores["dire"] . " - " . 
-                        $arrayValores["cp"] . " " . 
-                        $arrayValores["loca"] . ", " . 
-                        $arrayValores["prov"]?></p>
+                <p>-Dirección: <?php
+                    echo
+                    $arrayValores["dire"] . " - " .
+                    $arrayValores["cp"] . " " .
+                    $arrayValores["loca"] . ", " .
+                    $arrayValores["prov"]
+                    ?></p>
                 <p>Email: <?php echo $arrayValores["mail"]; ?></p>
-                <p>Archivo dni: <?php echo $_FILES["file"]["name"]; ?></p>
+                <p>Archivo dni: <a href="<?php echo "ficheros/" . $_FILES["file"]["name"] ?>" download><?php echo $_FILES["file"]["name"]; ?></a></p>
             </div>
             <div id="tarjetaFormacion">
                 <h2>Formación:</h2>
@@ -297,8 +302,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 </ul>
                 <p>Estudios: <?php echo $arrayValores["estudios"] ?></p>
             </div>
+            <div id="tarjetaInfo">
+                <h2>Información de la conexión: </h2>
+                <h3>IP Servidor: <?php echo $_SERVER["SERVER_ADDR"]; ?></h3>
+                <h3>IP Usuario: <?php echo $_SERVER["REMOTE_ADDR"] ?></h3>
+                <h3>Directorio Raíz: <?php echo $_SERVER["DOCUMENT_ROOT"] ?></h3>
+                <h3>Directorio Actual: <?php echo $_SERVER["PHP_SELF"] ?></h3>
+            </div>
 
-        <?php }
-        ?>
+<?php }
+?>
     </body>
 </html>
