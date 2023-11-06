@@ -3,6 +3,8 @@
 //Filtra cualquier string para eliminar espacios, barras o caracteres especiales.
 function filtrado($string) {
     $string = trim($string);
+    //Elimina los espacios internos sobrantes para que solo haya uno entre las palabras
+    $string = preg_replace('/\s+/', ' ', $string);
     $string = stripslashes($string);
     $string = htmlspecialchars($string);
     return $string;
@@ -104,6 +106,17 @@ function senalaError($arrayErrores, $clave) {
         return '"error"';
     } else {
         return "none";
+    }
+}
+
+//Determina si un string es un palíndromo o no.
+function esPalindromo($string) {
+    $string = strtolower($string);
+    $cadenaInvertida = strrev($string);
+    if ($string == $cadenaInvertida) {
+        return "es un palíndromo"; 
+    } else {
+        return "no es un palíndromo";
     }
 }
 

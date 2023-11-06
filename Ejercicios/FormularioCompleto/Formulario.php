@@ -296,13 +296,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 <ul>
                     <?php
                     foreach ($arrayValores["lang"] as $value) {
-                        echo "<li>$value</li>";
+                        if ($value != "") {
+                            echo "<li>$value</li>";
+                        }
                     }
                     ?>
                 </ul>
                 <p>Estudios: <?php echo $arrayValores["estudios"] ?></p>
             </div>
             <div id="tarjetaInfo">
+                <h2>Tu nombre <?php echo esPalindromo($arrayValores["nombre"]); ?></h2>
+                <br>
                 <h2>Información de la conexión: </h2>
                 <h3>IP Servidor: <?php echo $_SERVER["SERVER_ADDR"]; ?></h3>
                 <h3>IP Usuario: <?php echo $_SERVER["REMOTE_ADDR"] ?></h3>
@@ -310,7 +314,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 <h3>Directorio Actual: <?php echo $_SERVER["PHP_SELF"] ?></h3>
             </div>
 
-<?php }
-?>
+        <?php }
+        ?>
     </body>
 </html>
