@@ -1,0 +1,25 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 9 nov 2023, 11:56:21
+    Author     : aguao
+*/
+
+body{
+    background-color: aliceblue;
+    font-family: monospace;
+    font-size: larger;
+}
+
+body > h1{
+    text-align: center;
+}
+
+fieldset{
+    width: 50%;
+    margin-left: 25vw;
+}
+
+
