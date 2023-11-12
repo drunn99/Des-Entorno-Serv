@@ -5,25 +5,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 -->
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" lang="es">
         <title>Paises</title>
         <link rel="stylesheet" href="css/styles.css">
     </head>
     <body>
-        <h1>PAISES DE LA UNIÓN EUROPEA</h1>
         <?php
+            if(!empty($_POST["paisesCapitales"])){
+                echo $_POST["paisesCapitales"] . " -- ";
+                $unserializado = json_decode($_POST["paisesCapitales"]);
+                var_dump($unserializado);
+            }
+            
+            if(isset($_POST["pais"]) && isset($_POST["capi"])){
+                $paisCapital = [$_POST["pais"], $_POST["capi"]];
+                $serializado = json_encode($paisCapital);
+            }
         ?>
+        <h1>PAISES DE LA UNIÓN EUROPEA</h1>
         <div>
             <fieldset>
                 <legend>Insertar Paises</legend>
                 <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
+                    <input type="hidden" name="paisesCapitales" value="<?php echo isset($serializado) ? $serializado : "no"; ?>">
                     <p>
                         <input type="text" name="pais" placeholder="Pais">
                     </p>
                     <p>
                         <input type="text" name="capi" placeholder="Capital">
                     </p>
-                    <input type="hidden" name="array[]" value="">
                     <p>
                         <button type="submit" name="submit">AÑADIR PAIS</button>
                         <button type="reset">LIMPIAR CAMPOS</button>
@@ -31,11 +41,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 </form> 
             </fieldset>
             <?php
-           var_dump($_POST["array"]);
-            function arrayAso($array, $clave, $valor) {
-                $array[$clave] = $valor;
-                return $array;
-            }
+                echo $serializado;
             ?>
         </div>
     </body>
