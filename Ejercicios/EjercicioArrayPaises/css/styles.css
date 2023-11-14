@@ -8,7 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 */
 
 body{
-    background-color: aliceblue;
+    background-color: azure;
     font-family: monospace;
     font-size: larger;
 }
@@ -22,4 +22,14 @@ fieldset{
     margin-left: 25vw;
 }
 
+form > p:last-child{
+    color:red;
+}
 
+li {
+    margin-left: 2%;
+}
+
+fieldset{
+    background-color: aliceblue;
+}

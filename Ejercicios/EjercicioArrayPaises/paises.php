@@ -11,23 +11,39 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     </head>
     <body>
         <?php
-            if(!empty($_POST["paisesCapitales"])){
-                echo $_POST["paisesCapitales"] . " -- ";
-                $unserializado = json_decode($_POST["paisesCapitales"]);
-                var_dump($unserializado);
+        $paisCapital = array();
+        $arrayErrores = array();
+        if (isset($_POST["submit"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
+
+            $paisCapital = unserialize($_POST["paisesCapitales"]);
+
+            if (!empty($_POST["pais"]) && !empty($_POST["capi"])) {
+                $paisCapital [$_POST["pais"]] = $_POST["capi"];
+            } else if (!empty($_POST["pais"]) && empty($_POST["capi"])) {
+                unset($paisCapital[$_POST["pais"]]);
+            } else {
+                array_push($arrayErrores, "Debes introducir un pais");
             }
-            
-            if(isset($_POST["pais"]) && isset($_POST["capi"])){
-                $paisCapital = [$_POST["pais"], $_POST["capi"]];
-                $serializado = json_encode($paisCapital);
-            }
+        }
         ?>
         <h1>PAISES DE LA UNIÓN EUROPEA</h1>
         <div>
+            <?php
+            if (!empty($paisCapital)) {
+                ?>
+                <fieldset>
+                    <legend>Paises</legend>
+                    <?php
+                    foreach ($paisCapital as $key => $value) {
+                        echo "<li>$key $value</li> <br>";
+                    }
+                }
+                ?>
+            </fieldset>
             <fieldset>
                 <legend>Insertar Paises</legend>
                 <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
-                    <input type="hidden" name="paisesCapitales" value="<?php echo isset($serializado) ? $serializado : "no"; ?>">
+                    <input type="hidden" name="paisesCapitales" value='<?php echo serialize($paisCapital); ?>'>
                     <p>
                         <input type="text" name="pais" placeholder="Pais">
                     </p>
@@ -35,14 +51,27 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                         <input type="text" name="capi" placeholder="Capital">
                     </p>
                     <p>
-                        <button type="submit" name="submit">AÑADIR PAIS</button>
-                        <button type="reset">LIMPIAR CAMPOS</button>
+                        <button type="submit" name="submit">Añadir pais</button>
+                        <button type="reset">Limpiar campos</button>
+                        <?php
+                        if (isset($paisCapital) && count($paisCapital) > 0) {
+                            if (isset($_POST["vaciar"])) {
+                                unset($paisCapital);
+                            }
+                            ?>
+                            <button type="submit" name="vaciar">Vaciar</button>
+                            <?php
+                        }
+                        ?>
                     </p>
+                    <p>
+                        <?php
+                        echo count($arrayErrores) > 0 ? $arrayErrores[0] : "";
+                        ?>
+                    </p> 
                 </form> 
             </fieldset>
-            <?php
-                echo $serializado;
-            ?>
+
         </div>
     </body>
 </html>
