@@ -1,0 +1,23 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 19 nov 2023, 11:16:24
+    Author     : aguao
+*/
+
+body{
+    background-color: #ffcc99;
+}
+
+form{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+h1{
+    margin:0 2%;
+}
+
