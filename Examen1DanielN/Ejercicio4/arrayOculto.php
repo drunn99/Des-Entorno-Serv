@@ -30,7 +30,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 $traducción = $key == 0 ? "Nombre" : ($key == 1 ? "Apellido" : "Edad");
                 echo "<td>$traducción</td>";
             }
-            
             echo "</tr><tr>";
             foreach ($arrayDevuelto as $key => $value) {
                 echo "<td>$value</td>";
