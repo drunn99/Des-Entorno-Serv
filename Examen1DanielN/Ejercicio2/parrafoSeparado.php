@@ -30,7 +30,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
                     pushAso($arrayLetras, $string[$i], ($arrayLetras[$string[$i]] + 1));
                 }
             }
-
+            
+            ksort($arrayLetras);
+            
             return $arrayLetras;
         }
 
