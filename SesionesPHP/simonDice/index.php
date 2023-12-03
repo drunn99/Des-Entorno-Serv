@@ -11,18 +11,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     </head>
     <body>
         <?php
-        include "./simon.php";
-        session_start();
-        if (isset($_SESSION["level"]) && isset($_SESSION["correct"])) {
-            if ($_SESSION["correct"]) {
-                $_SESSION["level"] += 1;
-            }
-        } else {
-            $_SESSION["level"] = 1;
-        }
-        $_SESSION["set"] = crearSet($_SESSION["level"]);
+
         ?>
-        <form>
+        <form action=" <?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
             <div id="matriz">
                 <button name="color" value="red"><div class="square red"></div></button>
                 <button name="color" value="yellow"><div class="square yellow"></div></button>
@@ -31,6 +22,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             </div>
         </form>
         <?php
+        var_dump($_SESSION);
+        echo "<br>";
+        var_dump($_POST);
         ?>
     </body>
 </html>
