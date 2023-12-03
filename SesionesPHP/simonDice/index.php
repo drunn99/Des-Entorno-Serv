@@ -14,14 +14,40 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         include "./simon.php";
         session_start();
         $level = isset($_SESSION["level"]) ? $_SESSION["level"] : 1;
-        $play = isset($_SESSION["play"]) ? $_SESSION["play"] == "true" : false;
+        $play = isset($_POST["play"]) ? boolval($_POST["play"]) : false;
+        $indexOfSet = isset($_SESSION["indexOfSet"]) ? $_SESSION["indexOfSet"] : 0;
 
         if (!$play) {
             $colorSet = createSet($level);
         } else {
             $colorSet = isset($_SESSION["colorSet"]) ? $_SESSION["colorSet"] : array();
-            
         }
+
+        if (isset($_POST["color"])) {
+            $correct = $_POST["color"] == $colorSet[$indexOfSet];
+            $play = $correct ? true : false;
+            $indexOfSet = $correct ? $indexOfSet + 1 : 0;
+        }
+
+        if (isset($_POST["color"])) {
+            $correct = $_POST["color"] == $colorSet[$indexOfSet];
+            if ($correct) {
+                $indexOfSet++;
+                if ($indexOfSet >= count($colorSet)) {
+                    $level++;
+                    $indexOfSet = 0;
+                    $colorSet = createSet($level);
+                }
+            } else {
+                $play = false;
+                $indexOfSet = 0;
+            }
+        }
+        
+        $_SESSION["level"] = $level;
+        $_SESSION["play"] = $play;
+        $_SESSION["colorSet"] = $colorSet;
+        $_SESSION["indexOfSet"] = $indexOfSet;
         ?>
         <form action=" <?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
             <div class="showSet <?php echo $play ? "nonVisible" : "visible" ?>">
@@ -37,16 +63,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             </div>
         </form>
         <?php
-        
-        $_SESSION["play"] = isset($_POST["play"]) ? $_POST["play"] : false;
-        $_SESSION["colorSet"] = $colorSet;
-        $_SESSION[$level] = $level;
         echo "POST ";
         var_dump($_POST);
         echo "<br>";
         echo "SES ";
         var_dump($_SESSION);
-        echo "<br>PLAY? " . $play;
         ?>
     </body>
 </html>
