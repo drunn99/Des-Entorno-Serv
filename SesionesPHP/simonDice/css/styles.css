@@ -1,16 +1,7 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : 30 nov 2023, 13:12:38
-    Author     : aguao
-*/
-
 body {
-    background-color: #ccffff;
+    background-color: antiquewhite;
+    font-family: fantasy;
 }
-
 .matrix{
     display:grid;
     grid-template-columns: 110px 110px;
@@ -18,8 +9,17 @@ body {
     row-gap: 10px;
 }
 
-.viisble{
-    display: initial;
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    >.set{
+        margin: 3% 0;
+        border: 1px solid black;
+        display:flex;
+        flex-direction: row;
+        width: 50%;
+    }
 }
 
 .nonVisible{
@@ -48,9 +48,14 @@ body {
     background-color: blue;
 }
 
-.set{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 2vh;
+.showSet{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 2vh;
+}
+
+.showSet ~ button {
+    position: absolute;
+    left: 49%;
 }
