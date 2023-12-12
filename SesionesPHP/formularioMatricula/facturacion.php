@@ -27,7 +27,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 <h1>Formulario Matriculación - Forma de Pago</h1>
                 <fieldset>
                     <legend>Datos de pago</legend>
-                    <input type="radio" name="paymentMethod" value="Paypal" required>
+                    <input type="radio" name="paymentMethod" value="Paypal">
                     <label>Paypal</label> <br>
                     <input type="radio" name="paymentMethod" value="Tarjeta">
                     <label>Tarjeta de crédito</label><br>
