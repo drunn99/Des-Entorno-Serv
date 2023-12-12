@@ -1,0 +1,35 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 11 dic 2023, 19:28:39
+    Author     : aguao
+*/
+
+body{
+    background-color: #ccffcc;
+    font-family: sans-serif;
+    font-weight: 600;
+    div{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        form{
+            width:40%;
+            .buttons{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                input{
+                    margin: 2%;
+                    width: 20%;
+                    padding: 1%;
+                    background-color: white;
+                    border-radius: 10px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

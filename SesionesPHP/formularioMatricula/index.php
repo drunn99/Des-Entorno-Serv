@@ -11,13 +11,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     </head>
     <body>
         <?php
-            if(isset($_POST)){
-                session_start();
-                foreach ($_POST as $key => $value) {
-                    $_SESSION[$key] = $value;
-                }
-                var_dump($_SESSION);
+        if (!empty($_POST)) {
+            session_start();
+            foreach ($_POST as $key => $value) {
+                $_SESSION[$key] = $value;
             }
+            var_dump($_POST);
+        }
+
+        if (!empty($_SESSION) && isset($_POST["submit"])) {
+            header("Location: ./matricula.php");
+        }
+
         ?>
         <div>
             <h1>Formulario Matriculación - Datos Personales</h1>
@@ -50,15 +55,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 <fieldset>
                     <legend>Ciclo matriculación</legend>
                     <select name="cicle" required>
-                        <option selected disabled>Selecciona un Curso</option>
+                        <option value="" selected disabled>Selecciona un Curso</option>
                         <option value="ASIR">ASIR</option>
                         <option value="DAW">DAW</option>
                         <option value="DAM">DAM</option>
                     </select>
                 </fieldset>
                 <div class="buttons">
-                    <button type="submit">Enviar</button>
-                    <button type="reset">Limpiar</button>
+                    <input type="submit" name="submit"></button>
+                    <input type="reset"></button> 
                 </div>
             </form>
         </div>
