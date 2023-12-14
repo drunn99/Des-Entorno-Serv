@@ -29,7 +29,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 </div>
                 <div class="field">
                     <span>DNI:</span>
-                    <span><?php echo $_SESSION["id"] ?></span>
+                    <span><?php echo substr($_SESSION["id"],0,8) ?></span>
+                    <span>Letra:</span>
+                    <span><?php echo substr($_SESSION["id"],8) ?></span>
                 </div>
                 <div class="field">
                     <span>E-mail:</span>
