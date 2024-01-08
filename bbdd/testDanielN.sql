@@ -32,3 +32,6 @@ CREATE TABLE stocks(
     PRIMARY KEY (producto,tienda),
     unidades int(10) unsigned not null
 );
+
+CREATE USER 'gestor' IDENTIFIED BY 'secreto';
+GRANT ALL PRIVILEGES ON proyecto.* TO 'gestor';
