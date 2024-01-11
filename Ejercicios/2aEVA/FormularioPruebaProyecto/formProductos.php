@@ -22,11 +22,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     <body>
         <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
             <h3>Producto nuevo:</h3>
-            <input type="text" name="name" placeholder="Nombre">
-            <input type="text" name="short_name" placeholder="Nombre corto">
-            <textarea name="desc" placeholder="Descripción de producto"></textarea>
-            <input type="number" name="pvp" placeholder="Precio de venta">
-            <select name="family">
+            <input type="text" name="name" placeholder="Nombre" required>
+            <input type="text" name="short_name" placeholder="Nombre corto" required>
+            <textarea name="desc" placeholder="Descripción de producto" required></textarea>
+            <input type="number" name="pvp" step="0.01" placeholder="Precio de venta" required>
+            <select name="family" required>
                 <option selected disabled>Familia</option>
                 <option value="111">Conservas</option>
                 <option value="222">Alacena</option>
@@ -36,7 +36,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             <button type="submit" name="submit">Enviar consulta</button>
         </form>
         <?php
-        var_dump($_POST) ;
+        if (isset($_POST["submit"])) {
+            var_dump($_POST);
+            include "./conexion.php";
+            insertarProducto($_POST["name"],$_POST["short_name"],$_POST["desc"],$_POST["pvp"],$_POST["family"]);
+        }
         ?>
     </body>
 </html>
