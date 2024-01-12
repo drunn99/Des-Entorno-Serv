@@ -50,7 +50,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         }
 
         if (isset($_POST["fetch"])) {
-            consultaProductos();
+            consultaProductosCantidad();
         }
         ?>
     </body>
