@@ -20,13 +20,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         </style>
     </head>
     <body>
+        <?php
+        include "./conexion.php";
+        ?>
         <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
             <h3>Producto nuevo:</h3>
-            <input type="text" name="name" placeholder="Nombre" required>
-            <input type="text" name="short_name" placeholder="Nombre corto" required>
-            <textarea name="desc" placeholder="Descripción de producto" required></textarea>
-            <input type="number" name="pvp" step="0.01" placeholder="Precio de venta" required>
-            <select name="family" required>
+            <input type="text" name="name" placeholder="Nombre">
+            <input type="text" name="short_name" placeholder="Nombre corto">
+            <textarea name="desc" placeholder="Descripción de producto"></textarea>
+            <input type="number" name="pvp" step="0.01" placeholder="Precio de venta">
+            <select name="family">
                 <option selected disabled>Familia</option>
                 <option value="111">Conservas</option>
                 <option value="222">Alacena</option>
@@ -34,12 +37,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 <option value="444">Higiene</option>
             </select>
             <button type="submit" name="submit">Enviar consulta</button>
+            <button type="submit" name="fetch">Consulta</button>
         </form>
         <?php
         if (isset($_POST["submit"])) {
-            var_dump($_POST);
-            include "./conexion.php";
-            insertarProducto($_POST["name"],$_POST["short_name"],$_POST["desc"],$_POST["pvp"],$_POST["family"]);
+            $name = $_POST["name"];
+            $short_name = $_POST["short_name"];
+            $desc = $_POST["desc"];
+            $pvp = $_POST["pvp"];
+            $fam = $_POST["family"];
+            insertarProducto($name, $short_name, $desc, $pvp, $fam);
+        }
+
+        if (isset($_POST["fetch"])) {
+            consultaProductos();
         }
         ?>
     </body>

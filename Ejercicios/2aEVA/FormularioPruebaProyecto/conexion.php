@@ -27,6 +27,21 @@ function quitarCeros() {
     $conexion->close();
 }
 
+function consultaProductos() {
+    $conexion = new mysqli("localhost", "root", "", "proyecto");
+    $error = $conexion->connect_error;
+    if (!$error) {
+        $resultado = $conexion->query("SELECT producto,unidades FROM stocks WHERE unidades<10");
+        $stock = $resultado->fetch_assoc();
+        while ($stock != null) {
+            echo "<p>Producto:" . $stock["producto"] . " | cantidad: " . $stock["unidades"] . "</p>";
+            $stock = $resultado->fetch_assoc();
+        }
+    } else {
+        echo "<p>ERROR $error</p>";
+    }
+    $conexion->close();
+}
 /* 
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
