@@ -4,14 +4,19 @@ function insertarProducto($nombre, $nombre_corto, $desc, $pvp, $familia) {
     $conexion = new mysqli("localhost", "root", "", "proyecto");
     $error = $conexion->connect_errno;
     $pvp = floatval($pvp);
+    $consulta = $conexion->stmt_init(); //Declara consulta preparada
+    $consulta->prepare("INSERT INTO productos(nombre,nombre_corto,descripcion,pvp,familia) VALUES(?,?,?,?,?);"); //Prepara (inicializa) consulta preparada
     if ($error == null) {
-        $resultado = $conexion->query("INSERT INTO productos(nombre,nombre_corto,descripcion,pvp,familia) VALUES('$nombre','$nombre_corto','$desc',$pvp,'$familia');");
-        if ($resultado) {
+        $consulta->bind_param('sssds', $nombre, $nombre_corto, $desc, $pvp, $familia); //Determina los valores a sustituir en la consulta preparada
+        $consulta->execute(); //Ejecuta la consulta preparada
+        if ($consulta) {
             echo "<p>Se ha añadido $conexion->affected_rows producto.</p>";
         }
     } else {
         echo "<p>Error en la introducción de datos</p>";
     }
+    //Cierra la consulta preparada y la conexión
+    $consulta->close();
     $conexion->close();
 }
 
@@ -64,20 +69,26 @@ function consultaTodosProductos(): array {
 function consultarProducto($productID) {
     $arrayProducto = [];
     $con = new mysqli("localhost", "root", "", "proyecto");
+    $query = ("SELECT tiendas.nombre,stocks.unidades FROM ((productos INNER JOIN stocks ON stocks.producto = productos.id)INNER JOIN tiendas ON stocks.tienda = tiendas.id) WHERE productos.id = (?);");
     $error = $con->connect_error;
     if (!$error) {
-        $query = $con->query("SELECT tiendas.nombre,stocks.unidades FROM ((productos INNER JOIN stocks ON stocks.producto = productos.id)INNER JOIN tiendas ON stocks.tienda = tiendas.id) WHERE productos.id = $productID;");
-        $queryToArray = $query->fetch_assoc();
-        while ($queryToArray) {
-            $arrayProducto[$queryToArray["nombre"]] = $queryToArray["unidades"];
-            $queryToArray = $query->fetch_assoc();
+        $consulta = $con->stmt_init();
+        $consulta->prepare($query);
+        $consulta->bind_param("s", $productID);
+        $consulta->execute();
+        $consulta->bind_result($nombre, $unidades);
+        while ($consulta->fetch()) {
+            $arrayProducto[$nombre] = $unidades;
         }
     } else {
         echo "Error";
     }
+    $consulta->close();
     $con->close();
     return $arrayProducto;
 }
+
+
 
 /* 
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

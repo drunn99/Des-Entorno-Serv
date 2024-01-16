@@ -8,6 +8,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         <meta charset="UTF-8">
         <title>Introducir producto</title>
         <style>
+            body{
+                font-family: sans-serif;
+            }
             form{
                 display: flex;
                 flex-direction: column;
@@ -21,7 +24,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     </head>
     <body>
         <?php
-        include "./conexion.php";
+        require "./conexion.php";
         ?>
         <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
             <h3>Producto nuevo:</h3>
