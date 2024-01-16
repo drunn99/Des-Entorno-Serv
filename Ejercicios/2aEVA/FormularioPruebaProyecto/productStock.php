@@ -11,6 +11,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     </head>
     <body>
         <?php
+        include "./menuBars.php";
         require "./conexion.php";
         session_start();
         $buttons = "<button type=\"submit\" class=\"update\" name=\"upd\" value=\"eo\">Actualizar</button><button type=\"submit\" class=\"delete\" name=\"del\">Eliminar</button>";

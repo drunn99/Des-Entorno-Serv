@@ -10,7 +10,7 @@ function insertarProducto($nombre, $nombre_corto, $desc, $pvp, $familia) {
         $consulta->bind_param('sssds', $nombre, $nombre_corto, $desc, $pvp, $familia); //Determina los valores a sustituir en la consulta preparada
         $consulta->execute(); //Ejecuta la consulta preparada
         if ($consulta) {
-            echo "<p>Se ha añadido $conexion->affected_rows producto.</p>";
+            echo $tarjetaCorrecto = "<div class=\"correct\"><h3>Inserción de $conexion->affected_rows producto correcta</h3></div>";
         }
     } else {
         echo "<p>Error en la introducción de datos</p>";
@@ -33,19 +33,24 @@ function quitarCeros() {
 }
 
 function consultaProductosCantidad() {
-    $conexion = new mysqli("localhost", "root", "", "proyecto");
-    $error = $conexion->connect_error;
+    $arrayProducto = [];
+    $con = new mysqli("localhost", "root", "", "proyecto");
+    $query = ("SELECT id,nombre,nombre_corto,pvp FROM productos");
+    $error = $con->connect_error;
     if (!$error) {
-        $resultado = $conexion->query("SELECT producto,unidades FROM stocks WHERE unidades<10");
-        $stock = $resultado->fetch_assoc();
-        while ($stock != null) {
-            echo "<p>Producto:" . $stock["producto"] . " | cantidad: " . $stock["unidades"] . "</p>";
-            $stock = $resultado->fetch_assoc();
+        $consulta = $con->stmt_init();
+        $consulta->prepare($query);
+        $consulta->execute();
+        $consulta->bind_result($id,$nombre,$nombre_corto,$pvp);
+        while ($consulta->fetch()) {
+            $arrayProducto[$id] = "$id;$nombre;$nombre_corto;$pvp";
         }
     } else {
-        echo "<p>ERROR $error</p>";
+        echo "Error";
     }
-    $conexion->close();
+    $consulta->close();
+    $con->close();
+    return $arrayProducto;
 }
 
 function consultaTodosProductos(): array {
