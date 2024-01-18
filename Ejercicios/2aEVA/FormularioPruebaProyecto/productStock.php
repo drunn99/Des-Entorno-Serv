@@ -11,11 +11,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     </head>
     <body>
         <?php
+        session_start();
         include "./menuBars.php";
         require "./conexion.php";
-        session_start();
         $buttons = "<button type=\"submit\" class=\"update\" name=\"upd\" value=\"eo\">Actualizar</button><button type=\"submit\" class=\"delete\" name=\"del\">Eliminar</button>";
-        
         ?>
         <div id="wrapper">
             <h1>Consulta Stocks</h1>
@@ -24,8 +23,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 <select name="prodId" required>
                     <option selected disabled hidden>Elige un producto:</option>
                     <?php
-                    $arrayProductos = consultaTodosProductos();
-                    $prodId = isset($_SESSION["prodId"]) ? $_SESSION["prodId"] : "";
+                    $arrayProductos = consultaTodosIdProductos();
+                    $prodId = isset($_POST["prodId"]) ? $_POST["prodId"] : (isset($_SESSION["prodId"]) ? $_SESSION["prodId"] : "");
                     foreach ($arrayProductos as $key => $value) {
                         if ($key != $prodId) {
                             echo "<option value=\"$key\">$value</option>";
@@ -38,7 +37,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 <button type="submit" name="submit">&#128269;</button>
             </form>
             <?php
-            if ((isset($_POST["submit"]) && isset($_POST["prodId"]))) {
+            if (isset($_POST["submit"]) || (isset($_POST["upd"]) || (isset($_POST["del"])))) {
+                //Actualizar o eliminar
+                if (isset($_POST["upd"])) {
+                    $values = explode(";", $_POST["upd"]);
+                    actualizarStock($values[0], $values[1], $_POST["cuant"][$values[2]]);
+                }
+                if (isset($_POST["del"])) {
+                    $values = explode(";", $_POST["del"]);
+                    eliminarStock($values[0], $values[1]);
+                }
+                //Mostrar stock de produtos
                 $arrayProducto = consultarProducto($prodId);
                 if (count($arrayProducto) > 0) {
                     ?>
@@ -50,11 +59,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                         </tr>
                         <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
                             <?php
+                            $cont = 0;
                             foreach ($arrayProducto as $key => $value) {
-                                echo "<tr><td>$key</td><td><input type=\"number\" value=$value></td><td>". createButton($key, $value) ."</td></tr>";
-                            }
-                            if(true){
-                                
+                                $currentValue = isset($_POST["cuant"][$cont]) ? $_POST["cuant"][$cont] : $value;
+                                echo "<tr><td>$key</td><td><input type=\"number\" value=$currentValue name=\"cuant[]\"></td><td>" . createButton($key, $prodId, $cont) . "</td></tr>";
+                                $cont++;
                             }
                             ?>
                         </form>
@@ -63,13 +72,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 } else {
                     echo "<strong><h2>No hay existencias en stock</h2></strong>";
                 }
-                $_SESSION["prodId"] = $_POST["prodId"];
+                $_SESSION["prodId"] = $prodId;
             }
-            var_dump($_POST);
-            echo "<br>";
-            var_dump($_SESSION);
-            function createButton ($idShop, $idProduct){
-                return "<button type=\"submit\" class=\"update\" name=\"upd\" value=\"$idShop;$idProduct\">Actualizar</button><button type=\"submit\" class=\"delete\" name=\"del\">Eliminar</button>";
+            function createButton($shopName, $prodId, $tablePos) {
+                $buttonValue = "$shopName;$prodId;$tablePos";
+                return "<button type=\"submit\" class=\"update\" name=\"upd\" value=\"$buttonValue\">Actualizar</button><button type=\"submit\" class=\"delete\" name=\"del\" value=\"$buttonValue\">Eliminar</button>";
             }
             ?>
         </div>

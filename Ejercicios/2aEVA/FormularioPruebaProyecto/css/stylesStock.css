@@ -8,8 +8,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 */
 
 body{
-    font-family: sans-serif;
-    background-color: azure;
     >#wrapper{
         display:flex;
         flex-direction: column;

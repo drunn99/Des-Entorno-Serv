@@ -41,7 +41,7 @@ function consultaProductosCantidad() {
         $consulta = $con->stmt_init();
         $consulta->prepare($query);
         $consulta->execute();
-        $consulta->bind_result($id,$nombre,$nombre_corto,$pvp);
+        $consulta->bind_result($id, $nombre, $nombre_corto, $pvp);
         while ($consulta->fetch()) {
             $arrayProducto[$id] = "$id;$nombre;$nombre_corto;$pvp";
         }
@@ -53,22 +53,46 @@ function consultaProductosCantidad() {
     return $arrayProducto;
 }
 
-function consultaTodosProductos(): array {
-    $arrayProducto;
+function consultaTodosIdProductos(): array {
+    $arrayProductos = [];
     $con = new mysqli("localhost", "root", "", "proyecto");
+    $query = ("SELECT id,nombre FROM productos");
     $error = $con->connect_error;
     if (!$error) {
-        $query = $con->query("SELECT * FROM productos");
-        $queryToArray = $query->fetch_assoc();
-        while ($queryToArray) {
-            $arrayProducto[$queryToArray["id"]] = $queryToArray["nombre"];
-            $queryToArray = $query->fetch_assoc();
+        $consulta = $con->stmt_init();
+        $consulta->prepare($query);
+        $consulta->execute();
+        $consulta->bind_result($nombre, $id);
+        while ($consulta->fetch()) {
+            $arrayProductos[$nombre] = $id;
         }
     } else {
         echo "Error";
     }
-    return $arrayProducto;
+    $consulta->close();
     $con->close();
+    return $arrayProductos;
+}
+
+function consultaTodosProductosPrecio(): array {
+    $arrayProductos = [];
+    $con = new mysqli("localhost", "root", "", "proyecto");
+    $query = ("SELECT nombre,pvp FROM productos");
+    $error = $con->connect_error;
+    if (!$error) {
+        $consulta = $con->stmt_init();
+        $consulta->prepare($query);
+        $consulta->execute();
+        $consulta->bind_result($nombre, $pvp);
+        while ($consulta->fetch()) {
+            $arrayProductos[$nombre] = $pvp;
+        }
+    } else {
+        echo "Error";
+    }
+    $consulta->close();
+    $con->close();
+    return $arrayProductos;
 }
 
 function consultarProducto($productID) {
@@ -93,7 +117,37 @@ function consultarProducto($productID) {
     return $arrayProducto;
 }
 
+function actualizarStock($shopName, $itemId, $cuant) {
+    $conexion = new mysqli("localhost", "root", "", "proyecto");
+    $error = $conexion->connect_errno;
+    $consulta = $conexion->stmt_init(); //Declara consulta preparada
+    $consulta->prepare("UPDATE stocks SET unidades=? WHERE producto=? AND tienda=(SELECT id FROM tiendas WHERE nombre LIKE ?)"); //Prepara (inicializa) consulta preparada
+    if ($error == null) {
+        $consulta->bind_param('sss', $cuant, $itemId, $shopName); //Determina los valores a sustituir en la consulta preparada
+        $consulta->execute(); //Ejecuta la consulta preparada
+    } else {
+        echo "<p>Error en la introducción de datos</p>";
+    }
+    //Cierra la consulta preparada y la conexión
+    $consulta->close();
+    $conexion->close();
+}
 
+function eliminarStock($shopName, $itemId) {
+        $conexion = new mysqli("localhost", "root", "", "proyecto");
+    $error = $conexion->connect_errno;
+    $consulta = $conexion->stmt_init(); //Declara consulta preparada
+    $consulta->prepare("DELETE FROM stocks WHERE producto=? AND tienda = (SELECT id FROM tiendas WHERE nombre LIKE ?)"); //Prepara (inicializa) consulta preparada
+    if ($error == null) {
+        $consulta->bind_param('ss', $itemId, $shopName); //Determina los valores a sustituir en la consulta preparada
+        $consulta->execute(); //Ejecuta la consulta preparada
+    } else {
+        echo "<p>Error en la introducción de datos</p>";
+    }
+    //Cierra la consulta preparada y la conexión
+    $consulta->close();
+    $conexion->close();
+}
 
 /* 
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

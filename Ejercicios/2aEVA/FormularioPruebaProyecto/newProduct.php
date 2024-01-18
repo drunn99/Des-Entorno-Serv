@@ -8,9 +8,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         <meta charset="UTF-8">
         <title>Introducir producto</title>
         <style>
-            body{
-                font-family: sans-serif;
-            }
             form{
                 display: flex;
                 flex-direction: column;
@@ -50,13 +47,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             }
         </style>
     </head>
-
     <body>
         <?php
         include "./menuBars.php";
         require "./conexion.php";
         ?>
-        <div class="main">
+        <div class="wrapper">
             <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
                 <h3>Producto nuevo:</h3>
                 <input type="text" name="name" placeholder="Nombre" value="<?php echo isset($_POST["name"]) ? $_POST["name"] : "" ?>">
@@ -73,8 +69,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 <button type="submit" name="submit">Añadir Producto</button>
                 <?php
                 if (isset($_POST["submit"])) {
-                    var_dump($_POST);
-
                     //COMPROBACIÓN DE ERRORES Y CAMPOS VACÍOS
                     $arrayErrores = [];
                     if (!isset($_POST["name"]) || empty($_POST["name"])) {
@@ -109,7 +103,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                 }
                 ?>
             </form>
-
         </div>
     </body>
 </html>
