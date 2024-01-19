@@ -1,0 +1,51 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 19 ene 2024, 12:42:00
+    Author     : aguao
+*/
+
+body{
+    background-color: #ccffff;
+    margin: 0;
+    font-family: monospace;
+    >header{
+        text-align: center;
+        display: flex;
+        flex-flow: column wrap;
+        padding: 1%;
+        background-color: cornflowerblue;
+        color: white;
+        >h1{
+            margin: 0 0 1% 0;
+        }
+        >nav{
+            display: inherit;
+            flex-flow: row wrap;
+            justify-content: space-around;
+            >a{
+                flex-basis: 20%;
+                cursor: pointer;
+                text-decoration: none;
+                color: white;
+            }
+        }
+    }
+}
+
+.movementMenu{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+        >a{
+        cursor: pointer;
+        text-decoration: none;
+        color: black;
+        >img{
+            width: 20%;
+        }
+    }
+}
