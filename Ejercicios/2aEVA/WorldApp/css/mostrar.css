@@ -1,0 +1,48 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 19 ene 2024, 21:43:19
+    Author     : aguao
+*/
+
+body{
+    background-image: url(../img/287-world-country-flags-collection-flat-vector.jpg);
+    background-color: #000;
+    background-size: 31%;
+}
+
+#wrapper{
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    >table{
+        margin: 2% 0;
+        border: solid 1px black;
+        border-style: solid;
+        border-collapse: collapse;
+        width: 80%;
+        tr,td,th{
+            border: solid 1px black;
+            border-style: solid;
+            text-align: center;
+            padding: 1%;
+        }
+        .head{
+            background-color: cadetblue;
+            color: white;
+        }
+        .languageRow{
+            font-size: 20px;
+        }
+        .row0{
+            background-color: #caced1;
+        }
+        .row1{
+            background-color: aliceblue;
+        }
+
+    }
+}

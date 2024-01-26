@@ -2,22 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group/>
         <group>
-            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/FormularioPruebaProyecto/conexion.php</file>
-            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/FormularioPruebaProyecto/newProduct.php</file>
-            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/FormularioPruebaProyecto/seeProducts.php</file>
-            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/FormularioPruebaProyecto/productStock.php</file>
-            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/FormularioPruebaProyecto/menuBars.php</file>
-        </group>
-        <group>
-            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/FormularioPruebaProyecto/conexion.php</file>
+            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/WorldApp/css/anadir.css</file>
             <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/WorldApp/phpScripts/conexionBD.php</file>
             <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/WorldApp/phpPages/index.php</file>
-            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/WorldApp/htmlSnippets/menu.html</file>
+            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/WorldApp/css/modificar.css</file>
             <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/WorldApp/phpPages/modificar.php</file>
-            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/WorldApp/phpPages/mostrar.php</file>
             <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/WorldApp/phpPages/anadir.php</file>
-            <file>file:/C:/xampp/htdocs/EjerciciosClase/Ejercicios/2aEVA/WorldApp/css/globalStyles.css</file>
         </group>
     </open-files>
 </project-private>

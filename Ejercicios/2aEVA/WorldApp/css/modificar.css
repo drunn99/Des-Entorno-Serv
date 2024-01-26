@@ -1,0 +1,40 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 26 ene 2024, 19:30:16
+    Author     : aguao
+*/
+
+.wrapper{
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    >form{
+        >div{
+          margin: 2% 0;  
+        }
+    }
+}
+
+.tarjetaErrores{
+    transition: 0.5s;
+    background-color: #ff9999;
+    width: 20%;
+    position: absolute;
+    top: 15em;
+    left: 70%;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.correct{
+    border-radius: 10px;
+    position: absolute;
+    top: 15em;
+    left: 80%;
+    width: 15%;
+    background-color: #99ff99;
+}
